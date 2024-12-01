@@ -1,0 +1,39 @@
+import numpy as np
+
+# Define the AND function dataset
+# Inputs: X, Outputs: y
+X = np.array([[0, 0], [0, 1], [1, 0], [1, 1]])
+y = np.array([0, 0, 0, 1])
+
+# Initialize weights and bias
+weights = np.random.rand(2)
+bias = np.random.rand(1)
+learning_rate = 0.1
+
+# Perceptron activation function
+def step_function(z):
+    return 1 if z > 0 else 0
+
+# Train the perceptron
+epochs = 10  # Number of iterations
+for epoch in range(epochs):
+    print(f"Epoch {epoch + 1}")
+    for i in range(len(X)):
+        # Calculate the linear combination of inputs and weights
+        z = np.dot(X[i], weights) + bias
+        # Apply the step function
+        prediction = step_function(z)
+        # Calculate the error
+        error = y[i] - prediction
+        # Update weights and bias
+        weights += learning_rate * error * X[i]
+        bias += learning_rate * error
+        print(f"Input: {X[i]}, Predicted: {prediction}, Actual: {y[i]}, Error: {error}")
+    print(f"Updated Weights: {weights}, Updated Bias: {bias}\n")
+
+# Test the perceptron
+print("Testing Perceptron for AND function:")
+for i in range(len(X)):
+    z = np.dot(X[i], weights) + bias
+    prediction = step_function(z)
+    print(f"Input: {X[i]}, Predicted Output: {prediction}, Actual Output: {y[i]}")
