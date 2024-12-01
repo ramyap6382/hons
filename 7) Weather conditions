@@ -35,8 +35,15 @@ print(f"R² Score: {r2:.2f}")
 
 # Plotting
 plt.figure(figsize=(10, 6))
+# Scatter plot
 plt.scatter(X, y, color='blue', alpha=0.6, label='Actual data')
-plt.plot(X_test, y_pred, color='red', label='Regression Line')
+
+# Regression line
+X_sorted = X.sort_values(by='MinTemperature')  # Sort for a smooth line
+y_pred_all = model.predict(X_sorted)  # Predict using sorted X
+plt.plot(X_sorted, y_pred_all, color='red', label='Regression Line')
+
+# Labels and title
 plt.xlabel('Minimum Temperature (°C)')
 plt.ylabel('Maximum Temperature (°C)')
 plt.title('Linear Regression: Max vs Min Temperature')
