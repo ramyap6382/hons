@@ -1,0 +1,44 @@
+import numpy as np
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import Perceptron
+from sklearn.metrics import classification_report, accuracy_score
+
+# Load the Iris dataset
+iris = load_iris()
+X = iris.data  # Features: sepal and petal width/height
+y = iris.target  # Labels: Class of Iris flower
+
+# Filter the dataset for binary classification (e.g., class 0 and class 1)
+binary_mask = (y == 0) | (y == 1)
+X_binary = X[binary_mask]
+y_binary = y[binary_mask]
+
+# Train-test split
+X_train, X_test, y_train, y_test = train_test_split(X_binary, y_binary, test_size=0.2, random_state=42)
+
+# Standardize the features
+scaler = StandardScaler()
+X_train = scaler.fit_transform(X_train)
+X_test = scaler.transform(X_test)
+
+# Initialize and train the Perceptron model
+model = Perceptron(max_iter=1000, eta0=0.01, random_state=42)
+model.fit(X_train, y_train)
+
+# Predictions
+y_pred = model.predict(X_test)
+
+# Evaluation
+print("Classification Report:")
+print(classification_report(y_test, y_pred))
+
+accuracy = accuracy_score(y_test, y_pred)
+print(f"Accuracy: {accuracy:.2f}")
+
+# Test with new data
+sample_data = [[5.0, 3.5, 1.4, 0.2]]  # Example input
+sample_data_scaled = scaler.transform(sample_data)
+sample_prediction = model.predict(sample_data_scaled)
+print(f"Predicted class for sample data {sample_data}: {sample_prediction}")
