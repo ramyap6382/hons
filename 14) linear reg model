@@ -1,0 +1,30 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# Given data
+x = np.array([4.3, 6.9, 0.0, 5.4, 1.8, 8.0, 9.2, 2.1])
+y = np.array([224, 208, 123, 419, 230, 184, 351, 196])
+
+# Calculate coefficients for the linear regression line
+n = len(x)
+mean_x, mean_y = np.mean(x), np.mean(y)
+
+# Calculate slope (m) and intercept (c)
+m = np.sum((x - mean_x) * (y - mean_y)) / np.sum((x - mean_x) ** 2)
+c = mean_y - m * mean_x
+
+# Display the equation of the line
+print(f"Equation of the line: y = {m:.2f}x + {c:.2f}")
+
+# Predicted y values
+y_pred = m * x + c
+
+# Plot the data points and the regression line
+plt.scatter(x, y, color='blue', label='Data points')
+plt.plot(x, y_pred, color='red', label='Regression line')
+plt.xlabel('x')
+plt.ylabel('y')
+plt.title('Linear Regression')
+plt.legend()
+plt.grid()
+plt.show()
