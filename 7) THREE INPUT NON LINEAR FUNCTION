@@ -1,0 +1,36 @@
+import numpy as np
+# Sigmoid activation function
+def sigmoid(x):
+return 1 / (1 + np.exp(-x))
+
+# Nonlinear function with three inputs
+def nonlinear_function(x1, x2, x3):
+
+# Assign weights (can be adjusted)
+w1 = 0.6
+w2 = -1.0
+w3 = 0.8
+bias = 0.2
+
+# Weighted sum
+net_input = w1 * x1 + w2 * x2 + w3 * x3 + bias
+
+# Apply nonlinear activation 
+output = sigmoid(net_input) 
+return output
+
+# Main block for user input and result
+if name == "main":
+print("Three-Input Nonlinear Function using Sigmoid Activation")
+
+# Get inputs from user
+x1 = float(input("Enter input x1: "))
+
+x2 = float(input("Enter input x2: ")) 
+x3 = float(input("Enter input x3: "))
+
+# Compute output
+result = nonlinear_function(x1, x2, x3)
+
+# Display result
+print(f"Nonlinear function output: {result:.4f}")
