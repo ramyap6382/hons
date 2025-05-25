@@ -1,0 +1,45 @@
+# Step 1: Install and import libraries
+!pip install minisom 
+import numpy as np 
+import pandas as pd
+import matplotlib.pyplot as plt 
+from minisom import MiniSom
+from sklearn.preprocessing import MinMaxScaler
+
+# Step 2: Load data
+df = pd.read_csv('Mall_Customers.csv')
+
+# Step 3: Preprocess data
+X = df.iloc[:, [2, 3, 4]].values # Age, Income, Spending Score 
+scaler = MinMaxScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Step 4: Initialize and train SOM
+som = MiniSom(x=10, y=10, input_len=3, sigma=1.0, learning_rate=0.5)
+som.random_weights_init(X_scaled) 
+som.train_random(data=X_scaled, num_iteration=100)
+
+# Step 5: Visualize U-Matrix
+from pylab import bone, pcolor, colorbar, plot 
+bone()
+pcolor(som.distance_map().T) colorbar()
+for x in X_scaled:
+w = som.winner(x)
+plot(w[0]+0.5, w[1]+0.5, 'o', markerfacecolor='None', markeredgecolor='r',markersize=8)
+plt.title('SOM Customer Segmentation') 
+plt.show()
+
+# Step 6: Save figure
+plt.savefig('/content/som_result.png')
+
+# Step 7: Map BMUs and profile clusters
+bmus = np.array([som.winner(x) for x in X_scaled])
+cluster_ids = [f"{w[0]}_{w[1]}" for w in bmus] 
+df['cluster'] = cluster_ids
+cluster_counts = df['cluster'].value_counts().sort_index() 
+cluster_profile = df.groupby('cluster').agg({
+'Age': 'mean',
+'Annual Income (k$)': 'mean', 
+'Spending Score (1-100)': 'mean', 
+'CustomerID': 'count'
+}).rename(columns={'CustomerID': 'Count'})
