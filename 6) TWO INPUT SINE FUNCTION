@@ -1,0 +1,18 @@
+import math
+# Take two inputs from the user in degrees
+x_deg = float(input("Enter first angle (in degrees): ")) 
+y_deg = float(input("Enter second angle (in degrees): "))
+# Convert degrees to radians 
+x_rad = math.radians(x_deg) 
+y_rad = math.radians(y_deg)
+# Compute sine values 
+sin_x = math.sin(x_rad) 
+sin_y = math.sin(y_rad)
+# Combined sine computations
+sin_sum = sin_x + sin_y
+sin_xy = math.sin(x_rad + y_rad)
+# Display results
+print(f"sin({x_deg}) = {sin_x:.4f}")
+print(f"sin({y_deg}) = {sin_y:.4f}")
+print(f"sin({x_deg}) + sin({y_deg}) = {sin_sum:.4f}") 
+print(f"sin({x_deg} + {y_deg}) = sin({x_deg + y_deg}) = {sin_xy:.4f}")
